@@ -1,6 +1,7 @@
 import { Dictionary } from 'lodash';
 
 export interface ExtensionConfig {
+    schemes: [],
     queries: {
         linkFilePattern: string;
         linkPattern: string;

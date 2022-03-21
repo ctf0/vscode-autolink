@@ -13,11 +13,17 @@ export function updateDocumentLinkProvider() {
     for (const linkFilePattern in extensionState.queries) {
         const queries = extensionState.queries[linkFilePattern];
 
-        documentLinkDisposables.push(languages.registerDocumentLinkProvider(
-            {
-                scheme: 'file',
+        let list = []
+
+        for (const scheme of extensionState.schemes) {
+            list.push({
+                scheme: scheme,
                 pattern: linkFilePattern === 'undefined' ? undefined : linkFilePattern,
-            },
+            })
+        }
+
+        documentLinkDisposables.push(languages.registerDocumentLinkProvider(
+            list,
             {
                 provideDocumentLinks(document) {
                     const matches: DocumentLink[] = [];
@@ -40,7 +46,7 @@ export function updateDocumentLinkProvider() {
                                 matches.push({
                                     range: new Range(i, match.index, i, match[0].length + match.index),
                                     target: CommandUri,
-                                    tooltip: 'CommandAutolink.',
+                                    tooltip: 'Command-Autolink: open file',
                                 });
                             }
                         }

@@ -10,6 +10,7 @@ export const enum Constants {
 export let extensionConfig: ExtensionConfig;
 
 export abstract class extensionState {
+    static schemes: [];
     static queries: StateQueries = {};
 }
 
@@ -58,6 +59,7 @@ function updateQueries() {
     }
 
     extensionState.queries = groupedQueries;
+    extensionState.schemes = extensionConfig.schemes;
 }
 
 export function deactivate() { }

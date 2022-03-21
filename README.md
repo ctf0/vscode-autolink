@@ -19,7 +19,7 @@ Match links in document via regex and run a command on click. [Api Used](https:/
 ```jsonc
 "commandAutolink.queries": [
     {
-        "linkFilePattern": "**/*.{ts,js}", // defaults to "*"
+        "linkFilePattern": "**/*.{ts,js}", // defaults to "**/*"
         "linkPattern": "[^\\s]+\\.[^\\s]+", // any regex to match the text
         "linkCommand": "seito-openfile.openFileFromText", // command id to execute when clicking the matched pattern link
     },

@@ -2,7 +2,7 @@
     "name": "command-autolink",
     "displayName": "Command Autolink",
     "description": "Match links in document via regex and run a command on click",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "ctf0",
     "license": "MIT",
     "engines": {
@@ -46,7 +46,7 @@
                             "linkFilePattern": {
                                 "type": "string",
                                 "markdownDescription": "[Glob](https://code.visualstudio.com/api/references/vscode-api#GlobPattern). Example: `**/*.{ts,js}` - only enable in TypeScript & JavaScript files.",
-                                "default": "*"
+                                "default": ""
                             },
                             "linkPattern": {
                                 "type": "string",
@@ -64,6 +64,16 @@
                     "default": [],
                     "markdownDescription": "Make links from text in the document.",
                     "additionalItems": false
+                },
+                "commandAutolink.schemes": {
+                    "type": "array",
+                    "default": [
+                        "vscode-userdata",
+                        "file",
+                        "untitled"
+                    ],
+                    "uniqueItems": true,
+                    "markdownDescription": "file schemes to run the regex over"
                 }
             }
         }
