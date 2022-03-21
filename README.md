@@ -1,28 +1,32 @@
-[![Version](https://vsmarketplacebadge.apphb.com/version-short/usernamehw.autolink.svg)](https://marketplace.visualstudio.com/items?itemName=usernamehw.autolink)
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/usernamehw.autolink.svg)](https://marketplace.visualstudio.com/items?itemName=usernamehw.autolink)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/usernamehw.autolink.svg)](https://marketplace.visualstudio.com/items?itemName=usernamehw.autolink)
+# Command Autolink
 
-Match links in document with external location.
+Match links in document via regex and run a command on click. [Api Used](https://code.visualstudio.com/api/extension-guides/command#command-uris)
 
-## Example
+- based on https://github.com/usernamehw/vscode-autolink
 
-```js
-"autolink.queries": [
+<br>
+
+> ## The Reason Behind This
+>
+> is to use the <kbd>alt/ctrl</kbd> <kbd>+</kbd> <kbd>click</kbd> dynamically instead of creating numerous extensions with single usage or ask an extension author to add a link provider to something in specific.
+
+<br>
+
+<br>
+
+### Example :
+
+```jsonc
+"commandAutolink.queries": [
     {
-        "linkPattern": "github#(\\d{1,6})",// RegExp. Will match `github#202` text
-        "linkText": "https://github.com/Microsoft/vscode/issues/${0}",// will replace `${0}` with matched group
+        "linkFilePattern": "**/*.{ts,js}", // defaults to "*"
+        "linkPattern": "[^\\s]+\\.[^\\s]+", // any regex to match the text
+        "linkCommand": "seito-openfile.openFileFromText", // command id to execute when clicking the matched pattern link
     },
 ],
 ```
 
-![demo.gif](img/demo.gif)
+#### Notes :
 
-
-
-<!-- SETTINGS_START -->
-## Settings (1)
-
-|Setting|Default|Description|
-|-|-|-|
-|autolink.queries|\[\]|Make links from text in the document.|
-<!-- SETTINGS_END -->
+- some commands doesn't require any arguments ex.[Open File](https://gitlab.com/fr43nk/seito-openfile)
+- and some other requires an argument to be passed to the command to work which in this case the first captured group in the `linkPattern` will be used.

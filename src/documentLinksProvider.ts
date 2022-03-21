@@ -1,62 +1,62 @@
-import { Disposable, DocumentLink, env, languages, Range, Uri, window } from 'vscode';
-import { Constants, extensionState } from './extension';
-import { openLink } from './openLink';
+import { Disposable, DocumentLink, env, languages, Range, Uri } from 'vscode';
+import { extensionState } from './extension';
 
 const documentLinkDisposables: Disposable[] = [];
 
 export function updateDocumentLinkProvider() {
-	disposeDocumentLinkDisposables();
+    disposeDocumentLinkDisposables();
 
-	if (!Object.keys(extensionState.queries).length) {
-		return;
-	}
+    if (!Object.keys(extensionState.queries).length) {
+        return;
+    }
 
-	const uriDisposable = window.registerUriHandler({
-		handleUri(uri) {
-			openLink(uri.query, uri.fragment);
-		},
-	});
-	documentLinkDisposables.push(uriDisposable);
+    for (const linkFilePattern in extensionState.queries) {
+        const queries = extensionState.queries[linkFilePattern];
 
+        documentLinkDisposables.push(languages.registerDocumentLinkProvider(
+            {
+                scheme: 'file',
+                pattern: linkFilePattern === 'undefined' ? undefined : linkFilePattern,
+            },
+            {
+                provideDocumentLinks(document) {
+                    const matches: DocumentLink[] = [];
 
-	for (const filePattern in extensionState.queries) {
-		const queries = extensionState.queries[filePattern];
-		documentLinkDisposables.push(languages.registerDocumentLinkProvider(
-			{
-				scheme: 'file',
-				pattern: filePattern === 'undefined' ? undefined : filePattern,
-			},
-			{
-				provideDocumentLinks(document) {
-					const matches: DocumentLink[] = [];
-					for (let i = 0; i < document.lineCount; i++) {
-						const text = document.lineAt(i).text;
-						for (const query of queries) {
-							const regexp = query.linkRegexp;
-							for (let match = regexp.exec(text); match !== null; match = regexp.exec(text)) {
-								matches.push({
-									range: new Range(i, match.index, i, match[0].length + match.index),
-									target: Uri.from({
-										scheme: env.uriScheme,
-										authority: Constants.extensionId,
-										query: query.linkText,
-										fragment: match[1],
-									}),
-									tooltip: 'Autolink.',
-								});
-							}
-						}
-					}
-					return matches;
-				},
-			},
-		));
-	}
+                    for (let i = 0; i < document.lineCount; i++) {
+                        const text = document.lineAt(i).text;
+
+                        for (const query of queries) {
+                            const regexp = query.linkRegexp;
+
+                            for (
+                                let match = regexp.exec(text);
+                                match !== null;
+                                match = regexp.exec(text)
+                            ) {
+                                const group = match[1] || match[0]
+                                const args = encodeURIComponent(JSON.stringify([group]));
+                                const CommandUri = Uri.parse(`command:${query.linkCommand}?${args}`);
+
+                                matches.push({
+                                    range: new Range(i, match.index, i, match[0].length + match.index),
+                                    target: CommandUri,
+                                    tooltip: 'CommandAutolink.',
+                                });
+                            }
+                        }
+                    }
+
+                    return matches;
+                },
+            },
+        ));
+    }
 }
 
 function disposeDocumentLinkDisposables() {
-	for (const disposable of documentLinkDisposables) {
-		disposable.dispose();
-	}
-	documentLinkDisposables.length = 0;
+    for (const disposable of documentLinkDisposables) {
+        disposable.dispose();
+    }
+
+    documentLinkDisposables.length = 0;
 }

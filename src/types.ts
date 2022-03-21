@@ -1,16 +1,16 @@
 import { Dictionary } from 'lodash';
 
 export interface ExtensionConfig {
-	queries: {
-		filePattern: string;
-		linkPattern: string;
-		linkText: string;
-	}[];
+    queries: {
+        linkFilePattern: string;
+        linkPattern: string;
+        linkCommand: string;
+    }[];
 }
 
 export type StateQueries = Dictionary<{
-	filePattern: string;
-	linkPattern: string;
-	linkText: string;
-	linkRegexp: RegExp;
+    linkFilePattern: string;
+    linkPattern: string;
+    linkCommand: string;
+    linkRegexp: RegExp;
 }[]>;
