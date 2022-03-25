@@ -46,7 +46,7 @@ export function updateDocumentLinkProvider() {
                                 matches.push({
                                     range: new Range(i, match.index, i, match[0].length + match.index),
                                     target: CommandUri,
-                                    tooltip: 'Command-Autolink: open file',
+                                    tooltip: `Command-Autolink: ${query.linkText}`,
                                 });
                             }
                         }

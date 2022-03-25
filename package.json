@@ -2,7 +2,7 @@
     "name": "command-autolink",
     "displayName": "Command Autolink",
     "description": "Match links in document via regex and run a command on click",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "ctf0",
     "license": "MIT",
     "engines": {
@@ -56,6 +56,11 @@
                             "linkCommand": {
                                 "type": "string",
                                 "markdownDescription": "a command to run on link click",
+                                "default": ""
+                            },
+                            "linkText": {
+                                "type": "string",
+                                "markdownDescription": "command text to show in the hover popup",
                                 "default": ""
                             }
                         },

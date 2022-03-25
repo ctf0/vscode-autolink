@@ -47,6 +47,7 @@ function updateQueries() {
         linkFilePattern: string;
         linkPattern: string;
         linkCommand: string;
+        linkText: string;
         linkRegexp: RegExp;
     }[]>;
 
