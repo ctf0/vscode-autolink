@@ -1,4 +1,5 @@
-import { Dictionary, groupBy } from 'lodash';
+import { Dictionary } from 'lodash';
+import groupBy from 'lodash.groupby';
 import { ExtensionContext, workspace } from 'vscode';
 import { updateDocumentLinkProvider } from './documentLinksProvider';
 import { ExtensionConfig, StateQueries } from './types';
@@ -27,14 +28,14 @@ export function activate(extensionContext: ExtensionContext) {
         updateDocumentLinkProvider();
     }
 
-    extensionContext.subscriptions.push(workspace.onDidChangeConfiguration(e => {
-        if (!e.affectsConfiguration(Constants.extensionName)) {
-            return;
+    extensionContext.subscriptions.push(workspace.onDidChangeConfiguration((e) => {
+        if (e.affectsConfiguration(Constants.extensionName)) {
+            updateConfig();
+            updateEverything();
         }
-        updateConfig();
-        updateEverything();
     }));
 }
+
 /**
  * Group by linkFilePattern to register fewer `documentLinkProvider`s.
  * Create regexp from linkPattern (with global flag)
@@ -42,7 +43,7 @@ export function activate(extensionContext: ExtensionContext) {
 function updateQueries() {
     const groupedQueries = groupBy(
         extensionConfig.queries,
-        'linkFilePattern' as keyof ExtensionConfig['queries'][number]
+        'linkFilePattern' as keyof ExtensionConfig['queries'][number],
     ) as Dictionary<{
         linkFilePattern: string;
         linkPattern: string;

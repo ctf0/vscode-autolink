@@ -1,4 +1,4 @@
-import { Disposable, DocumentLink, env, languages, Range, Uri } from 'vscode';
+import { Disposable, DocumentLink, languages, Range, Uri } from 'vscode';
 import { extensionState } from './extension';
 
 const documentLinkDisposables: Disposable[] = [];
@@ -13,18 +13,17 @@ export function updateDocumentLinkProvider() {
     for (const linkFilePattern in extensionState.queries) {
         const queries = extensionState.queries[linkFilePattern];
 
-        let list = []
+        const list = [];
 
         for (const scheme of extensionState.schemes) {
             list.push({
-                scheme: scheme,
-                pattern: linkFilePattern === 'undefined' ? undefined : linkFilePattern,
-            })
+                scheme  : scheme,
+                pattern : linkFilePattern === 'undefined' ? undefined : linkFilePattern,
+            });
         }
 
-        documentLinkDisposables.push(languages.registerDocumentLinkProvider(
-            list,
-            {
+        documentLinkDisposables.push(
+            languages.registerDocumentLinkProvider(list, {
                 provideDocumentLinks(document) {
                     const matches: DocumentLink[] = [];
 
@@ -39,14 +38,14 @@ export function updateDocumentLinkProvider() {
                                 match !== null;
                                 match = regexp.exec(text)
                             ) {
-                                const group = match[1] || match[0]
+                                const group = match[1] || match[0];
                                 const args = encodeURIComponent(JSON.stringify([group]));
                                 const CommandUri = Uri.parse(`command:${query.linkCommand}?${args}`);
 
                                 matches.push({
-                                    range: new Range(i, match.index, i, match[0].length + match.index),
-                                    target: CommandUri,
-                                    tooltip: `Command-Autolink: ${query.linkText}`,
+                                    range   : new Range(i, match.index, i, match[0].length + match.index),
+                                    target  : CommandUri,
+                                    tooltip : `Command-Autolink: ${query.linkText}`,
                                 });
                             }
                         }
@@ -54,8 +53,8 @@ export function updateDocumentLinkProvider() {
 
                     return matches;
                 },
-            },
-        ));
+            }),
+        );
     }
 }
 

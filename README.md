@@ -19,10 +19,10 @@ Match links in document via regex and run a command on click. [Api Used](https:/
 ```jsonc
 "commandAutolink.queries": [
     {
-        "linkFilePattern": "**/*.{ts,js}", // defaults to "**/*"
-        "linkPattern": "[^\\s]+\\.[^\\s]+", // any regex to match the text
-        "linkCommand": "seito-openfile.openFileFromText", // command id to execute when clicking the matched pattern link
-        "linkText": "open File", // command text to show in the hover popup
+        "linkFilePattern": "**/*{.yml,pecl}",                      // defaults to "**/*"
+        "linkPattern": "[\/]?((dev-ops|opt)[^\\s]+\\.[^\\s]{2,})", // any regex to match the text
+        "linkCommand": "workbench.action.quickOpen",               // command id to execute when clicking the matched pattern link
+        "linkText": "Go To File"                                   // command text to show in the hover popup
     },
 ],
 ```
@@ -30,4 +30,4 @@ Match links in document via regex and run a command on click. [Api Used](https:/
 #### Notes :
 
 - some commands doesn't require any arguments ex.[Open File](https://gitlab.com/fr43nk/seito-openfile)
-- and some other requires an argument to be passed to the command to work which in this case the first captured group in the `linkPattern` will be used.
+- and some other requires an argument to be passed to the command ex.`workbench.action.quickOpen` to work which in this case the first captured group in the `linkPattern` will be used.
