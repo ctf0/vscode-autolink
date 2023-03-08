@@ -4,6 +4,7 @@ export interface ExtensionConfig {
     schemes: [],
     queries: {
         linkFilePattern: string;
+        linkFileLanguage: string[];
         linkPattern: string;
         linkCommand: string;
         linkText: string;
@@ -12,6 +13,7 @@ export interface ExtensionConfig {
 
 export type StateQueries = Dictionary<{
     linkFilePattern: string;
+    linkFileLanguage: string[];
     linkPattern: string;
     linkCommand: string;
     linkText: string;

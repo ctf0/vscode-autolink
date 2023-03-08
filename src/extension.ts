@@ -46,6 +46,7 @@ function updateQueries() {
         'linkFilePattern' as keyof ExtensionConfig['queries'][number],
     ) as Dictionary<{
         linkFilePattern: string;
+        linkFileLanguage: string[];
         linkPattern: string;
         linkCommand: string;
         linkText: string;

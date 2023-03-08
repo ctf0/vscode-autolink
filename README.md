@@ -20,8 +20,9 @@ Match links in document via regex and run a command on click. [Api Used](https:/
 "commandAutolink.queries": [
     {
         "linkFilePattern": "**/*{.yml,pecl}",                      // defaults to "**/*"
-        "linkPattern": "[\/]?((dev-ops|opt)[^\\s]+\\.[^\\s]{2,})", // any regex to match the text
-        "linkCommand": "workbench.action.quickOpen",               // command id to execute when clicking the matched pattern link
+        "linkFileLanguage": ["php"],                               // similar to linkFilePattern but instead use language ids, defaults to []
+        "linkPattern": "[\/]?((dev-ops|opt)[^\\s]+\\.[^\\s]{2,})", // any regex to match the text, required
+        "linkCommand": "workbench.action.quickOpen",               // command id to execute when clicking the matched pattern link, required
         "linkText": "Go To File"                                   // command text to show in the hover popup
     },
 ],

@@ -13,12 +13,13 @@ export function updateDocumentLinkProvider() {
     for (const linkFilePattern in extensionState.queries) {
         const queries = extensionState.queries[linkFilePattern];
 
-        const list = [];
+        const list: any = [];
 
         for (const scheme of extensionState.schemes) {
             list.push({
-                scheme  : scheme,
-                pattern : linkFilePattern === 'undefined' ? undefined : linkFilePattern,
+                scheme   : scheme,
+                pattern  : linkFilePattern === 'undefined' ? undefined : linkFilePattern,
+                language : queries['linkFileLanguage'] === 'undefined' ? undefined : queries['linkFileLanguage'],
             });
         }
 

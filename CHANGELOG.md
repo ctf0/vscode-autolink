@@ -13,3 +13,7 @@
 ## 0.0.4
 
 - far smaller size
+
+## 0.0.5
+
+- support using file language id as well for files that doesnt have extensions
