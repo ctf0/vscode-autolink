@@ -28,12 +28,14 @@ export function activate(extensionContext: ExtensionContext) {
         updateDocumentLinkProvider();
     }
 
-    extensionContext.subscriptions.push(workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration(Constants.extensionName)) {
-            updateConfig();
-            updateEverything();
-        }
-    }));
+    extensionContext.subscriptions.push(
+        workspace.onDidChangeConfiguration((e) => {
+            if (e.affectsConfiguration(Constants.extensionName)) {
+                updateConfig();
+                updateEverything();
+            }
+        }),
+    );
 }
 
 /**
